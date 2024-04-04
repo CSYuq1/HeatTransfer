@@ -59,34 +59,34 @@ namespace heattransfer {
          */
 
 
-        Solution_4_6(unsigned int point_size, double wall_thick, double wall_lamda, double h_1, double h_2, double tf_1,
-                     double tf_2, double qv, double eps)
-            : point_size_(point_size),
-              wall_thick_(wall_thick),
-              wall_lamda_(wall_lamda),
-              h_1_(h_1),
-              h_2_(h_2),
-              tf_1_(tf_1),
-              tf_2_(tf_2),
-              qv_(qv),
-              EPS(eps) {
-            temp = new double[point_size + 1];
-            temp[1] = tf_1;
-            for (unsigned int i = 2; i < point_size - 1; i++)
-                temp[i] = default_temp_oringin_;
-            temp[point_size - 1] = tf_2;
-        }
+
 
         Solution_4_6() {
-            temp = new double[default_point_size_ + 1];
-            temp[1] = tf_1_;
-            for (unsigned int i = 2; i < point_size_ - 1; i++)
+            temp = new double[default_point_size_ ];
+            temp[0] = tf_1_;
+            for (unsigned int i = 1; i < point_size_ - 1; i++)
                 temp[i] = default_temp_oringin_;
             temp[point_size_ - 1] = tf_2_;
+        }
+
+        /**
+         * @warning 请注意参数输入顺序，构造函数是用clion生成的，我也不知道为什么顺序会这样
+         *
+         */
+        Solution_4_6(const double eps,const double tf2,const double qv,const double tf1,const double h2,const double h1,const double wallLamda,
+                     const double wallThick,const unsigned int pointSize) : EPS(eps), tf_2_(tf2), qv_(qv), tf_1_(tf1), h_2_(h2),
+                                                                            h_1_(h1), wall_lamda_(wallLamda),
+                                                                            wall_thick_(wallThick), point_size_(pointSize) {
+            temp=new double[pointSize];
+            for(unsigned int i=1;i<pointSize-1;i++)
+                temp[i]=default_temp_oringin_;
+            temp[pointSize-1]=tf2;
+
+
         };
 
 
-        /**
+        /*!
          * @return 返回温度结果
          */
         [] double* GetAnswer();
@@ -97,12 +97,13 @@ namespace heattransfer {
 
             }
             while ()
+                return temp;
         }
 
         /**
          * @brief 将最终结果输出到控制台
          */
-        int PrintAnswer([] double* temp_arrays);
+       // int PrintAnswer([] double* temp_arrays);
 
     private:
         bool is_default = true; ///这个标识符号也没啥用
@@ -115,7 +116,7 @@ namespace heattransfer {
         double tf_2_ = default_tf_2_; ///右侧流体温度
         double qv_ = default_qv_; ///内热源
         double EPS = default_EPS_; ///终止误差
-        [] double* temp;
+         double  *  temp;
         std::vector<double[]> result;
     };
 };
