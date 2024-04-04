@@ -51,7 +51,7 @@ namespace heattransfer {
         static constexpr double default_tf_2_ = 215 + 273; ///右侧流体温度
         static constexpr double default_temp_oringin_ = 20+273; ///初始温度,书上为T0
         static constexpr double default_qv_ = 200000; ///内热源
-        static constexpr double default_EPS_ = 0.01; ///控制终止时的误差大小
+        static constexpr double default_EPS_ = 0.000001; ///控制终止时的误差大小
         static constexpr unsigned int default_point_size_ = 200; ///默认情况下划分的点位数量
         static constexpr unsigned int maximum_iterations_ = 1000000; //最大迭代次数
         /**
@@ -90,7 +90,7 @@ namespace heattransfer {
          double* GetFinalAnswer() {
             ///记录迭代次数
             double delta_x = wall_thick_ / (point_size_-1);
-            for (unsigned int i = 0; i < maximum_iterations_; i++) {
+            for (unsigned int j = 0; j < maximum_iterations_; j++) {
                 for (unsigned int i = 1; i < point_size_ - 1; i++) {
                     double eps = (temp_[i - 1] +
                                   temp_[i + 1] +
