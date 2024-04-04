@@ -1,5 +1,5 @@
 #ifndef SOLUTION_H
-#define SOLUTION_H
+#define SOLUTION_H//本来写成头文件了，但是感觉没必要，干脆写成一个文件了
 
 #include<iostream>
 #include<vector>
@@ -49,15 +49,11 @@ namespace heattransfer {
         static constexpr double default_h_2_ = 300; ///右侧的表面传热系数
         static constexpr double default_tf_1_ = 25 + 273; ///左侧流体温度
         static constexpr double default_tf_2_ = 215 + 273; ///右侧流体温度
-        static constexpr double default_temp_oringin_ = 20+273; ///初始温度,书上为T0
+        static constexpr double default_temp_oringin_ = 20 + 273; ///初始温度,书上为T0
         static constexpr double default_qv_ = 200000; ///内热源
         static constexpr double default_EPS_ = 0.000001; ///控制终止时的误差大小
         static constexpr unsigned int default_point_size_ = 200; ///默认情况下划分的点位数量
         static constexpr unsigned int maximum_iterations_ = 1000000; //最大迭代次数
-        /**
-         *@brief 在题目信息改变时，就可以调用构造函数自定义数据
-         */
-
 
         Solution_4_6() {
             temp_ = new double[default_point_size_];
@@ -66,10 +62,8 @@ namespace heattransfer {
                 temp_[i] = default_temp_oringin_;
             temp_[point_size_ - 1] = tf_2_;
         }
-
         /**
          * @warning 请注意参数输入顺序，构造函数是用clion生成的，我也不知道为什么顺序会这样
-         *
          */
         Solution_4_6(const double eps, const double tf2, const double qv, const double tf1, const double h2,
                      const double h1, const double wallLamda,
@@ -85,21 +79,20 @@ namespace heattransfer {
         };
 
 
-         double* GetAnswer();
+        double* GetAnswer();
 
-         double* GetFinalAnswer() {
-            ///记录迭代次数
-            double delta_x = wall_thick_ / (point_size_-1);
+        double* GetFinalAnswer() {
+            double delta_x = wall_thick_ / (point_size_ - 1);
             for (unsigned int j = 0; j < maximum_iterations_; j++) {
                 for (unsigned int i = 1; i < point_size_ - 1; i++) {
                     double eps = (temp_[i - 1] +
                                   temp_[i + 1] +
-                                  qv_ * delta_x * delta_x / wall_lamda_)/ 2
-                                  - temp_[i];
+                                  qv_ * delta_x * delta_x / wall_lamda_) / 2
+                                 - temp_[i];
 
-                    if (eps < EPS_ && eps > EPS_negative_)//当小于最小误差时，趋向于稳定，
+                    if (eps < EPS_ && eps > EPS_negative_) //当小于最小误差时，趋向于稳定，
                         return temp_;
-                    temp_[i] +=eps ;
+                    temp_[i] += eps;
                 }
             }
 
@@ -112,8 +105,8 @@ namespace heattransfer {
         void PrintAnswer(double* temp) {
             ios::sync_with_stdio(false);
             cout.tie(nullptr);
-            for (unsigned int i = 0; i <point_size_;i++)
-                cout<<temp[i]<<' ';
+            for (unsigned int i = 0; i < point_size_; i++)
+                cout << temp[i] << '\n';
         }
 
     private:
@@ -129,7 +122,7 @@ namespace heattransfer {
         double EPS_ = default_EPS_; ///终止误差
         double EPS_negative_ = -default_EPS_;
         double* temp_;
-       // std::vector<double[]> result;
+        // std::vector<double[]> result;
     };
 };
 
