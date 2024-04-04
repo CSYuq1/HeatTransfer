@@ -49,7 +49,7 @@ namespace heattransfer {
         static constexpr double default_h_2_ = 300; ///右侧的表面传热系数
         static constexpr double default_tf_1_ = 25 + 273; ///左侧流体温度
         static constexpr double default_tf_2_ = 215 + 273; ///右侧流体温度
-        static constexpr double default_temp_oringin_ = 20; ///初始温度,书上为T0
+        static constexpr double default_temp_oringin_ = 20+273; ///初始温度,书上为T0
         static constexpr double default_qv_ = 200000; ///内热源
         static constexpr double default_EPS_ = 0.01; ///控制终止时的误差大小
         static constexpr unsigned int default_point_size_ = 200; ///默认情况下划分的点位数量
@@ -59,51 +59,62 @@ namespace heattransfer {
          */
 
 
-
-
         Solution_4_6() {
-            temp = new double[default_point_size_ ];
-            temp[0] = tf_1_;
+            temp_ = new double[default_point_size_];
+            temp_[0] = tf_1_;
             for (unsigned int i = 1; i < point_size_ - 1; i++)
-                temp[i] = default_temp_oringin_;
-            temp[point_size_ - 1] = tf_2_;
+                temp_[i] = default_temp_oringin_;
+            temp_[point_size_ - 1] = tf_2_;
         }
 
         /**
          * @warning 请注意参数输入顺序，构造函数是用clion生成的，我也不知道为什么顺序会这样
          *
          */
-        Solution_4_6(const double eps,const double tf2,const double qv,const double tf1,const double h2,const double h1,const double wallLamda,
-                     const double wallThick,const unsigned int pointSize) : EPS(eps), tf_2_(tf2), qv_(qv), tf_1_(tf1), h_2_(h2),
-                                                                            h_1_(h1), wall_lamda_(wallLamda),
-                                                                            wall_thick_(wallThick), point_size_(pointSize) {
-            temp=new double[pointSize];
-            for(unsigned int i=1;i<pointSize-1;i++)
-                temp[i]=default_temp_oringin_;
-            temp[pointSize-1]=tf2;
-
-
+        Solution_4_6(const double eps, const double tf2, const double qv, const double tf1, const double h2,
+                     const double h1, const double wallLamda,
+                     const double wallThick, const unsigned int pointSize) : EPS_(eps), tf_2_(tf2), qv_(qv), tf_1_(tf1),
+                                                                             h_2_(h2),
+                                                                             h_1_(h1), wall_lamda_(wallLamda),
+                                                                             wall_thick_(wallThick),
+                                                                             point_size_(pointSize) {
+            temp_ = new double[pointSize];
+            for (unsigned int i = 1; i < pointSize - 1; i++)
+                temp_[i] = default_temp_oringin_;
+            temp_[pointSize - 1] = tf2;
         };
 
 
-        /*!
-         * @return 返回温度结果
-         */
-        [] double* GetAnswer();
+         double* GetAnswer();
 
-        [] double* GetFinalAnswer() {
-            unsigned int iterator_counts=0;///记录迭代次数
-            do {
+         double* GetFinalAnswer() {
+            ///记录迭代次数
+            double delta_x = wall_thick_ / (point_size_-1);
+            for (unsigned int i = 0; i < maximum_iterations_; i++) {
+                for (unsigned int i = 1; i < point_size_ - 1; i++) {
+                    double eps = (temp_[i - 1] +
+                                  temp_[i + 1] +
+                                  qv_ * delta_x * delta_x / wall_lamda_)/ 2
+                                  - temp_[i];
 
+                    if (eps < EPS_ && eps > EPS_negative_)//当小于最小误差时，趋向于稳定，
+                        return temp_;
+                    temp_[i] +=eps ;
+                }
             }
-            while ()
-                return temp;
+
+            return temp_;
         }
 
         /**
          * @brief 将最终结果输出到控制台
          */
-       // int PrintAnswer([] double* temp_arrays);
+        void PrintAnswer(double* temp) {
+            ios::sync_with_stdio(false);
+            cout.tie(nullptr);
+            for (unsigned int i = 0; i <point_size_;i++)
+                cout<<temp[i]<<' ';
+        }
 
     private:
         bool is_default = true; ///这个标识符号也没啥用
@@ -115,9 +126,10 @@ namespace heattransfer {
         double tf_1_ = default_tf_1_; ///左侧流体温度
         double tf_2_ = default_tf_2_; ///右侧流体温度
         double qv_ = default_qv_; ///内热源
-        double EPS = default_EPS_; ///终止误差
-         double  *  temp;
-        std::vector<double[]> result;
+        double EPS_ = default_EPS_; ///终止误差
+        double EPS_negative_ = -default_EPS_;
+        double* temp_;
+       // std::vector<double[]> result;
     };
 };
 
