@@ -52,7 +52,7 @@ namespace heattransfer {
         static constexpr double default_temp_oringin_ = 20.0 + 273.0; ///初始温度,书上为T0
         static constexpr double default_qv_ = 200000.0; ///内热源
         static constexpr double default_EPS_ = 0.000000001; ///控制终止时的误差大小
-        static constexpr unsigned int default_point_size_ = 100; ///默认情况下划分的点位数量
+        static constexpr unsigned int default_point_size_ = 10; ///默认情况下划分的点位数量
         static constexpr unsigned int maximum_iterations_ = 100000000; //最大迭代次数
 
         Solution_4_6() {
