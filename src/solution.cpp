@@ -45,15 +45,15 @@ namespace heattransfer {
     public:
         static constexpr double default_wall_thick_ = 0.3; ///墙壁的厚度
         static constexpr double default_wall_lamda_ = 36.4; ///墙壁的导热率
-        static constexpr double default_h_1_ = 60; ///左侧的表面传热系数
-        static constexpr double default_h_2_ = 300; ///右侧的表面传热系数
-        static constexpr double default_tf_1_ = 25 + 273; ///左侧流体温度
-        static constexpr double default_tf_2_ = 215 + 273; ///右侧流体温度
-        static constexpr double default_temp_oringin_ = 20 + 273; ///初始温度,书上为T0
-        static constexpr double default_qv_ = 200000; ///内热源
-        static constexpr double default_EPS_ = 0.000001; ///控制终止时的误差大小
-        static constexpr unsigned int default_point_size_ = 200; ///默认情况下划分的点位数量
-        static constexpr unsigned int maximum_iterations_ = 1000000; //最大迭代次数
+        static constexpr double default_h_1_ = 60.0; ///左侧的表面传热系数
+        static constexpr double default_h_2_ = 300.0; ///右侧的表面传热系数
+        static constexpr double default_tf_1_ = 25.0 + 273.0; ///左侧流体温度
+        static constexpr double default_tf_2_ = 215.0 + 273.0; ///右侧流体温度
+        static constexpr double default_temp_oringin_ = 20.0 + 273.0; ///初始温度,书上为T0
+        static constexpr double default_qv_ = 200000.0; ///内热源
+        static constexpr double default_EPS_ = 0.000000001; ///控制终止时的误差大小
+        static constexpr unsigned int default_point_size_ = 100; ///默认情况下划分的点位数量
+        static constexpr unsigned int maximum_iterations_ = 100000000; //最大迭代次数
 
         Solution_4_6() {
             temp_ = new double[default_point_size_];
@@ -62,6 +62,7 @@ namespace heattransfer {
                 temp_[i] = default_temp_oringin_;
             temp_[point_size_ - 1] = tf_2_;
         }
+
         /**
          * @warning 请注意参数输入顺序，构造函数是用clion生成的，我也不知道为什么顺序会这样
          */
@@ -90,7 +91,7 @@ namespace heattransfer {
                                   qv_ * delta_x * delta_x / wall_lamda_) / 2
                                  - temp_[i];
 
-                    if (eps < EPS_ && eps > EPS_negative_) //当小于最小误差时，趋向于稳定，
+                    if (eps < EPS_ && eps > EPS_negative_) //当小于最小误差时，趋向于稳定，直接退出
                         return temp_;
                     temp_[i] += eps;
                 }
@@ -102,11 +103,12 @@ namespace heattransfer {
         /**
          * @brief 将最终结果输出到控制台
          */
-        void PrintAnswer(double* temp) {
+         void PrintAnswer(double * temp) const {
             ios::sync_with_stdio(false);
             cout.tie(nullptr);
             for (unsigned int i = 0; i < point_size_; i++)
-                cout << temp[i] << '\n';
+            cout << temp[i]-273.0 << '\n';
+
         }
 
     private:
