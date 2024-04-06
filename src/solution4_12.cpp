@@ -25,7 +25,7 @@ public:
     const double plastic_lamda_ = 0.156; ///塑料导热系数
     const double plastic_alpha_ = 0.000000008; /// 塑料热传导率
     const double q_ = 500.0; ///加热版热流密度
-    const unsigned int point_num_ = 201; ///节点数量
+    const unsigned int point_num_ = 1000; ///节点数量
     const double delta_x_ = wall_thick_ / (point_num_ - 1); ///端点之间的距离
 
     Solution4_12() {
@@ -48,6 +48,9 @@ public:
      * @return 到达温宿所需时间
      */
     unsigned int GetTime(double need_temp) {
+        /**
+         * @warning Fo需要满足稳定性条件，所以这个是错误的
+         */
         double Fo = heattransfer::GetFo(1.0, plastic_alpha_, delta_x_);
         const double Fo_need_plus_ = plastic_alpha_ / delta_x_ / delta_x_; //每次迭代时累加，减少乘法次数，加速获得FO的速度
 
