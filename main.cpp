@@ -3,11 +3,11 @@
 //
 
 #include <iostream>
-#include"src/solution4_6.cpp"
+#include"src/solution4_12.cpp"
 
 int main() {
     using namespace heattransfer;
-    auto solution=new Solution_4_6();
-    solution->PrintAnswer(solution->GetFinalAnswer());
+    auto solution=new Solution4_12();
+    std::cout<<solution->GetTime();
     return 0;
 }

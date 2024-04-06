@@ -6,5 +6,6 @@ set(CMAKE_CXX_STANDARD 26)
 add_executable(
     TeatTransfer main.cpp
         src/solution4_12.cpp
-        src/heat_transfer_algorithm.cpp
+        src/heat_transfer_algorithm.h
+
 )
