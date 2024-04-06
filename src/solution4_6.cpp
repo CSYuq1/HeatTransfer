@@ -12,30 +12,6 @@ namespace heattransfer {
     using std::vector;
     using std::abs;
     /**
-     *暂时烂尾中
-     * @brief 传热学第七版课本例题４－２的解
-     * 可以调用构造函数来初始化变量,以适应应不同数值
-     */
-    class Solution_4_2 {
-    public:
-        /*
-         * 课本中那些毫无意义的变量命名不符合现代c++命名规范
-         */
-        double trb_; ///右侧边界面温度
-        double tlb_; ///左侧边界面温度
-        double ttb_; ///顶部边界面温度
-        double tbb_; ///底部边界面温度
-
-        double EPS_; ///控制迭代过程终止的误差
-
-        unsigned int iterator_time_; ///迭代次数对应课本中的IT
-        unsigned int max_iterator_time_; ///最大迭代次数,对应课本中的K
-
-        unsigned int x_grids_number_; ///x方向的网格数量,对应课本中的N
-        unsigned int y_grids_number_; ///y方向上的网格划分,对应课本中的M
-    };
-
-    /**
      *
      * @date  2024.4.1
      * @brief 传热学第七版习题４－６，张老师微信作业第八次第四题的解

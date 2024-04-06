@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include"src/solution.cpp"
+#include"src/solution4_6.cpp"
 
 int main() {
     using namespace heattransfer;
