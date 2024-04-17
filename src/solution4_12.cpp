@@ -1,20 +1,18 @@
 //
 // Created by yuqi on 24-4-6.
-
+/**
+ *
+ * @author yanyuqi
+ * @date 2024.4.6
+ * @version 2024.4.17
+ * @brief 例题4——12的题解 ，张老师微信作业第九次
+ */
 #include<algorithm>
 #include<iostream>
 #include<cmath>
 #include "../../../../../usr/include/stdint.h"
 
 #include"heat_transfer_algorithm.h"
-
-
-/**
- *
- * @author yanyuqi
- * @date 2024.4.6
- * @brief 例题4——12的题解 ，张老师微信作业第九次
- */
 inline double GetFo(double time, double a, double wall_thickness) {
     return a * time / wall_thickness / wall_thickness;
 }
