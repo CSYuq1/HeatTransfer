@@ -7,6 +7,9 @@
 #include"src/solution4_6.cpp"
 
 int main() {
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    std::cout.tie(nullptr);
     using namespace heattransfer;
     auto solution=new Solution4_12();
     std::cout<<solution->GetTime();
