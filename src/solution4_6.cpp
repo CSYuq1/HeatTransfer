@@ -4,8 +4,7 @@
 #include<iostream>
 #include<vector>
 #include<cmath>
-
-#include"heat_transfer_algorithm.h"
+#include<cstdint>
 
 
 namespace heattransfer {
@@ -27,16 +26,16 @@ namespace heattransfer {
         static constexpr double default_tf_2_ = 215.0 + 273.0; ///右侧流体温度
         static constexpr double default_temp_oringin_ = 20.0 + 273.0; ///初始温度,书上为T0
         static constexpr double default_qv_ = 200000.0; ///内热源
-        static constexpr double default_EPS_ = 0.000000001; ///控制终止时的误差大小
-        static constexpr unsigned int default_point_size_ = 100; ///默认情况下划分的点位数量
+        static constexpr double default_EPS_ = 0.0000000001; ///控制终止时的误差大小
+        static constexpr unsigned int default_point_size_ = 11; ///默认情况下划分的点位数量
         static constexpr unsigned int maximum_iterations_ = 100000000; //最大迭代次数
 
         Solution_4_6() {
             temp_ = new double[default_point_size_];
-            temp_[0] = tf_1_;
+            temp_[0] = 401.07 + 273.0; ///计算器手搓
             for (unsigned int i = 1; i < point_size_ - 1; i++)
                 temp_[i] = default_temp_oringin_;
-            temp_[point_size_ - 1] = tf_2_;
+            temp_[point_size_ - 1] = 339.78 + 273.0; ///手搓
         }
 
         /**
@@ -49,7 +48,6 @@ namespace heattransfer {
                                                                              h_1_(h1), wall_lamda_(wallLamda),
                                                                              wall_thick_(wallThick),
                                                                              point_size_(pointSize) {
-            temp_ = new double[pointSize];
             for (unsigned int i = 1; i < pointSize - 1; i++)
                 temp_[i] = default_temp_oringin_;
             temp_[pointSize - 1] = tf2;
@@ -60,7 +58,7 @@ namespace heattransfer {
 
         double* GetFinalAnswer() {
             double delta_x = wall_thick_ / (point_size_ - 1);
-            for (unsigned int j = 0; j < maximum_iterations_; j++) {
+            for (unsigned int j = 0; j < UINT32_MAX; j++) {
                 for (unsigned int i = 1; i < point_size_ - 1; i++) {
                     double eps = (temp_[i - 1] +
                                   temp_[i + 1] +
@@ -79,13 +77,12 @@ namespace heattransfer {
         /**
          * @brief 将最终结果输出到控制台
          */
-         void PrintAnswer(double * temp) const {
+        void PrintAnswer(double* temp) const {
             using namespace std;
             ios::sync_with_stdio(false);
             cout.tie(nullptr);
-            for (unsigned int i = 0; i < point_size_; i++)
-            cout << temp[i]-273.0 << '\n';
-
+            for (unsigned int i = 0; i < point_size_; i++)//应该写成迭代循环的，这样太丑了
+                cout << i << ": " << temp[i] - 273.0 << '\n';
         }
 
     private:
@@ -100,7 +97,8 @@ namespace heattransfer {
         double qv_ = default_qv_; ///内热源
         double EPS_ = default_EPS_; ///终止误差
         double EPS_negative_ = -default_EPS_;
-        double* temp_;
+        double* temp_ = new double[default_point_size_];
+        // std::unique_ptr<> 想改成智能指针，不会写
         // std::vector<double[]> result;
     };
 };

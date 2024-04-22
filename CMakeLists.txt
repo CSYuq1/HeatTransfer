@@ -4,5 +4,5 @@ set(CMAKE_CXX_STANDARD 23)
 add_executable(
     debug main.cpp
         src/solution4_12.cpp
-        src/heat_transfer_algorithm.h
+        src/solution4_6.cpp
 )

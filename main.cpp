@@ -3,7 +3,10 @@
 //
 
 #include <iostream>
+#include <memory>
+#include<vector>
 #include"src/solution4_12.cpp"
+
 #include"src/solution4_6.cpp"
 
 int main() {
@@ -11,9 +14,10 @@ int main() {
     std::cin.tie(nullptr);
     std::cout.tie(nullptr);
     using namespace heattransfer;
-    auto solution=new Solution4_12();
-    std::cout<<solution->GetTime();
-    //auto solution =new Solution_4_6;
-    //solution->PrintAnswer(solution->GetFinalAnswer());
+    Solution4_12 solution_12;
+    auto* solution_6 = new Solution_4_6();
+    //std::cout << solution_12.GetTime();
+    solution_6->PrintAnswer(solution_6->GetFinalAnswer());
+
     return 0;
 }
