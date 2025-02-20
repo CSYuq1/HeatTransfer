@@ -27,7 +27,7 @@ namespace heattransfer {
         const double plastic_lamda_ = 0.156; ///塑料导热系数
         const double plastic_alpha_ = 0.00000008; /// 塑料热传导率
         const double q_ = 500.0; ///加热版热流密度
-        const double delta_time_ = 0.000001;
+        const double delta_time_ = 0.001;
         const unsigned int max_point_num_ = wall_thick_ / (sqrt(2 * plastic_alpha_))+1; ///最大节点数量，根据稳定性条件写不等式求出
         unsigned int point_num_ = max_point_num_;
 

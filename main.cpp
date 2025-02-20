@@ -15,9 +15,9 @@ int main() {
     std::cout.tie(nullptr);
     using namespace heattransfer;
     Solution4_12 solution_12;
-    auto* solution_6 = new Solution_4_6();
-    //std::cout << solution_12.GetTime();
-    solution_6->PrintAnswer(solution_6->GetFinalAnswer());
+    //auto* solution_6 = new Solution_4_6();
+    std::cout << solution_12.GetTime();
+    //solution_6->PrintAnswer(solution_6->GetFinalAnswer());
 
     return 0;
 }
